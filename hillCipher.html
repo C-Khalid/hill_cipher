@@ -15,8 +15,31 @@
             <a href ng-click="tab.setTab(2)">Ciphertext Attack</a></li>
         </ul>
         <div ng-show="tab.isSet(1)">
-         1
-        </div>
+         
+         	<!-- The matrix key input -->
+         	<div class = "key" ng-controller = "MatrixController as MatrixCtrl">
+    			<form name = "matrixForm">
+					<math xmlns='http://www.w3.org/1998/Math/MathML' display='block'>
+  						<mi>Key</mi>
+  						<mo>=</mo>
+  						<mfenced open='[' close=']' separators=''>
+    						<mtable>
+    							<!-- Loop row by row in the key-->
+    							<mtr ng-init = "MatrixCtrl.initializeKeyArray" ng-repeat="keyRow in MatrixCtrl.key track by $index">
+    								<!-- Loop value by value in the row -->
+    								<mtd ng-repeat = "keyV in keyRow track by $index">
+    									<mi>
+    										<input type = 'number' ng-model = 'keyV'>
+    									</mi>
+    								</mtd>
+    							</mtr>
+    						</mtable>
+  						</mfenced>
+					</math>
+    			</form>
+    		</div>
+
+       	</div>
         <div ng-show="tab.isSet(2)">
           2
         </div>
