@@ -31,7 +31,7 @@
     								<!-- Loop value by value in the row -->
     								<mtd ng-repeat = "keyV in keyRow track by $index">
     									<mi>
-    										<input type = 'number' ng-model = 'keyV'>
+    										<input type = 'number' ng-model = 'keyRow[$index]'>
     									</mi>
     								</mtd>
     							</mtr>

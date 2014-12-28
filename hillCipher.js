@@ -25,7 +25,7 @@ app.controller('MatrixController', function(){
 	{
 	  this.key.push([]);
 	  for(var j=0; j < this.keyLength; j++)
-		this.key[i].push('');
+		this.key[i].push(0);
 	}
   };
   //Call the key initialization method before loading the page
@@ -39,7 +39,6 @@ app.controller('MatrixController', function(){
   		this.key = [];
   		this.initializeKeyArray();
   	}
-  	console.log(this.keyLength);
   };
 
   // Decrease the key length by one. Minumum length is 2
