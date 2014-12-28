@@ -19,7 +19,7 @@ app.controller('MatrixController', function(){
 
   this.key = [];
 
-  //Populate the key array with noting to initialize it
+  //Populate the key array with noting to initialize it. Size is (keyLength X keyLength)
   this.initializeKeyArray = function(){
 	for(var i=0; i < this.keyLength; i++)
 	{
@@ -28,6 +28,28 @@ app.controller('MatrixController', function(){
 		this.key[i].push('');
 	}
   };
+  //Call the key initialization method before loading the page
   this.initializeKeyArray();
+
+  // Increase the key length by one. Maximum length is 6
+  this.increaseKeyLength = function(){
+  	if(this.keyLength < 6)
+  	{
+  		this.keyLength++;
+  		this.key = [];
+  		this.initializeKeyArray();
+  	}
+  	console.log(this.keyLength);
+  };
+
+  // Decrease the key length by one. Minumum length is 2
+  this.decreaseKeyLength = function(){
+  	if(this.keyLength  > 2)
+  	{
+  		this.keyLength--;
+  		this.key = [];
+  		this.initializeKeyArray();
+  	}
+  };  
 
 });

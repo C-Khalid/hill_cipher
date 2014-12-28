@@ -18,6 +18,8 @@
          
          	<!-- The matrix key input -->
          	<div class = "key" ng-controller = "MatrixController as MatrixCtrl">
+         		<input type="button" class="btn btn-primary btn-sm" value="+" ng-click="MatrixCtrl.increaseKeyLength()">
+    			<input type="button" class="btn btn-primary btn-sm" value="-" ng-click="MatrixCtrl.decreaseKeyLength()">
     			<form name = "matrixForm">
 					<math xmlns='http://www.w3.org/1998/Math/MathML' display='block'>
   						<mi>Key</mi>
