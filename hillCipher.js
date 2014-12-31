@@ -52,8 +52,9 @@ app.controller('MatrixController', function(MatrixFactory){
   };
 
   this.invertible = function(){
-  	MatrixFactory.MatrixFactory(this.key);
-  	if(MatrixFactory.hasInverse())
+  	// Create a new instance
+  	var mf = new MatrixFactory(this.key);
+  	if(mf.hasInverse())
   		this.isInvertible = true;
   	else
   		this.isInvertible = false;
@@ -67,7 +68,7 @@ app.factory('MatrixFactory', function() {
 	this.keyInverse = [];
 
 	//Constructor, with class name
-	this.MatrixFactory = function(key){
+	function MatrixFactory(key){
 		this.key = key;
 	}
     
@@ -89,12 +90,11 @@ app.factory('MatrixFactory', function() {
 	}
 
 	// Return true if key has an inverse. False otherwise
-	this.hasInverse = function(){
+	// Public method, assigned to prototype
+	MatrixFactory.prototype.hasInverse = function(){
 		// Calculate the key determinant using mathjs library
 		var determinant = math.det(this.key);
-		console.log("determinant = " + determinant);
 		determinant = mod( determinant , 26 );
-		console.log("determinant mult = " + modularMultiplicativeInverse( determinant , 26 ));
 		// if the multiplicative inverse of determinant modular 26 is equal to zero, then the key matrix is singular(noninvertible)
 		if( modularMultiplicativeInverse( determinant , 26 ) != 0 )
 			return true;
@@ -104,5 +104,5 @@ app.factory('MatrixFactory', function() {
 	//Return the inverse of the key if exists. Not implemented yet!
 	this.inverse = function(){ return this.keyInverse; };
 
-	return this;
+	return MatrixFactory;
 });
