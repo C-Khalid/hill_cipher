@@ -11,7 +11,7 @@ app.controller('TabController', function(){
     return this.tab === tab;
   };
 });
-
+var matr=[];
 app.controller('MatrixController', function(MatrixFactory){
 
   //Default key length 2 X 2
@@ -50,28 +50,25 @@ app.controller('MatrixController', function(MatrixFactory){
   		this.initializeKeyArray();
   	}
   };
-
+  
   this.invertible = function(){
   	// Create a new instance
-  	var mf = new MatrixFactory(this.key);
+  	var mf = new MatrixFactory(angular.copy(this.key));
   	if(mf.hasInverse())
-  		this.isInvertible = true;
+      this.isInvertible = true;
   	else
-  		this.isInvertible = false;
+      this.isInvertible = false;
   };
 });
 
 app.factory('MatrixFactory', function() {
 
-	// The key matrix
-	this.key = [];
-	this.keyInverse = [];
-
 	//Constructor, with class name
-	function MatrixFactory(key){
-		this.key = key;
-	}
-    
+    var MatrixFactory = function(key){
+    	this.key = key;
+		this.keyInverse = [];
+    };
+
     // Return the multiplicative inverse of num modular mod. Zero if it doesn't exists
     function modularMultiplicativeInverse(num, mod){
 		if(num == 1)
@@ -102,7 +99,7 @@ app.factory('MatrixFactory', function() {
 	};
 
 	//Return the inverse of the key if exists. Not implemented yet!
-	this.inverse = function(){ return this.keyInverse; };
+	MatrixFactory.inverse = function(){ return this.keyInverse; };
 
 	return MatrixFactory;
 });
