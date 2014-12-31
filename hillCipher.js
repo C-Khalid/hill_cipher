@@ -11,7 +11,7 @@ app.controller('TabController', function(){
     return this.tab === tab;
   };
 });
-var matr=[];
+
 app.controller('MatrixController', function(MatrixFactory){
 
   //Default key length 2 X 2
@@ -99,7 +99,19 @@ app.factory('MatrixFactory', function() {
 	};
 
 	//Return the inverse of the key if exists. Not implemented yet!
-	MatrixFactory.inverse = function(){ return this.keyInverse; };
+	MatrixFactory.prototype.inverse = function(){
 
+		// Populate the key inverse with values of the Identity matrix
+		for(var i=0; i < this.key.length; i++)
+		{
+			this.keyInverse.push([]);
+			for(var j=0; j < this.key.length; j++)
+				if( i == j )
+					this.keyInverse[i][j] = 1;
+				else
+					this.keyInverse[i][j] = 0;
+		}
+		return this.keyInverse;
+	};
 	return MatrixFactory;
 });
