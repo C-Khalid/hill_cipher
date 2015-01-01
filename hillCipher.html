@@ -40,19 +40,20 @@
   						</mfenced>
 					</math>
                 </form>
-    		</div>
 
-    		<div class = "text" ng-controller = "TextController as TextCtrl">
-	    		<!-- Plain Text-->
-	    		<div class="plaintext">
-				<textarea  ng-model = "TextCtrl.plaintext" rows=6 cols=60></textarea>
-	  		</div>
-
-	  		<!-- Cipher Text-->
-	  		<div id="ciphertext">
-	  			<textarea readonly ng-model = "TextCtrl.ciphertext" rows=6 cols=60></textarea>
+	    		<div class = "text" ng-controller = "TextController as TextCtrl">
+		    		<!-- Plain Text-->
+		    		<div class="plaintext">
+						<textarea  ng-model = "TextCtrl.plaintext" rows=6 cols=60></textarea>
+			  		</div>
+			  		<input type="button" button type="button" class="btn btn-default" value="Encrypt" ng-click="TextCtrl.encrypt(MatrixCtrl.key)">
+			  		<input type="button" button type="button" class="btn btn-default" value="Decrypt" ng-click="TextCtrl.decrypt(MatrixCtrl.key)">
+			  		<!-- Cipher Text-->
+			  		<div id="ciphertext">
+			  			<textarea readonly ng-model = "TextCtrl.ciphertext" rows=6 cols=60></textarea>
+			 		</div>
+	 			</div>
 	 		</div>
- 		</div>
        	</div>
         <div ng-show="tab.isSet(2)">
           2

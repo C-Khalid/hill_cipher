@@ -217,4 +217,32 @@ app.controller('TextController', function(){
 
 	this.plaintext;
 	this.ciphertext;
+	var letter = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+
+	this.encrypt = function(key){
+
+		keyFliped = [];// The matrix multiplication function in mathjs is expecting the each matrix row to be a column
+		for(var i = 0; i < key.length; i++)
+		{
+			keyFliped.push([]);
+			for(var j = 0; j < key.length; j++)
+				keyFliped[i][j] = key[j][i];
+		}
+
+		var cipherTextDigit = [];// Hold the cipher text as number, e.g. A = 1, B = 2
+		var A = 1;// The decimial value of A. Some papers use 0 for A
+		for(var i = 0 ; i < this.plaintext.length; i+=key.length )
+		{
+			var temp = [];
+			for( var j = 0; j < key.length; j++)
+				temp.push(letter.indexOf(this.plaintext.charAt(i+j).toLocaleUpperCase())+A);
+			cipherTextDigit.push( math.multiply(temp,keyFliped) );
+		}
+
+		// Turn the cipher text from numbers to text
+		this.ciphertext = "";
+		for(var i = 0; i < cipherTextDigit.length; i++)
+			for(var j = 0; j < cipherTextDigit[i].length; j++)
+				this.ciphertext+=letter[(cipherTextDigit[i][j]-A)%26];
+	};
 });
