@@ -139,6 +139,14 @@ app.factory('MatrixFactory', function() {
 					}
 				}
 
+		// Multiply each row by the multiplicative inverse of its leading element
+		for( var i=0; i<this.key.length; i++)
+		{
+			multiplicativeInverse = modularMultiplicativeInverse(keyCopy[i][i], 26);
+			if( multiplicativeInverse != 0)
+				for( var j=0; j<this.key.length; j++)
+					this.keyInverse[i][j] = mod  ( (this.keyInverse[i][j] * multiplicativeInverse) , 26 );
+		}
 		return this.keyInverse;
 	};
 	return MatrixFactory;
