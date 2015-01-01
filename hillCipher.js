@@ -55,7 +55,7 @@ app.controller('MatrixController', function(MatrixFactory){
   	// Create a new instance
   	var mf = new MatrixFactory(angular.copy(this.key));
   	if(mf.hasInverse())
-      this.isInvertible = true;
+  		this.isInvertible = true;
   	else
       this.isInvertible = false;
   };
@@ -98,9 +98,10 @@ app.factory('MatrixFactory', function() {
 		return false;
 	};
 
-	//Return the inverse of the key if exists. Not implemented yet!
+	//Return the inverse of the key if exists.
 	MatrixFactory.prototype.inverse = function(){
 
+		var modular13solution = [];
 		// Populate the key inverse with values of the Identity matrix
 		for(var i=0; i < this.key.length; i++)
 		{
@@ -110,6 +111,9 @@ app.factory('MatrixFactory', function() {
 					this.keyInverse[i][j] = 1;
 				else
 					this.keyInverse[i][j] = 0;
+			modular13solution.push([]);
+			for(var j=0; j < this.key.length; j++)
+				modular13solution[i][j] = -1;
 		}
 
 		// Find the key inverse:
@@ -146,8 +150,65 @@ app.factory('MatrixFactory', function() {
 			if( multiplicativeInverse != 0)
 				for( var j=0; j<this.key.length; j++)
 					this.keyInverse[i][j] = mod  ( (this.keyInverse[i][j] * multiplicativeInverse) , 26 );
+			else
+			{
+				// If the number you want to divide by and the number you want to divide 
+				// and 26 has a common factor of 2, then the common factor of 2 can be 
+				// divide out of all three numbers and a modular equation can be solved modulo 13.(Christensen)
+				multiplicativeInverse = modularMultiplicativeInverse(keyCopy[i][i]/2, 13);
+				for( var j=0; j<this.key.length; j++)
+				{
+					this.keyInverse[i][j] = mod  ( (this.keyInverse[i][j]/2 * multiplicativeInverse) , 13 );
+					if(this.keyInverse[i][j] < 26)
+						modular13solution[i][j] = this.keyInverse[i][j] + 13;
+				}
+			}
+
+			for(var numberOfMat = 0 ; numberOfMat < Math.pow(2,this.key.length) ; numberOfMat++)
+			{
+				var temp = numberOfMat.toString(2);
+				var extra = temp.length;
+				var send = [];
+				for(var j = 0; j < this.key.length-extra;j++)
+					temp="0"+temp;
+				for(var j = 0; j < this.key.length; j++)
+				{
+					if(temp.charAt(j) == 0)
+						send.push(this.keyInverse[i][j]);
+					else
+						send.push(modular13solution[i][j]);
+				}
+				if(isItAsolution(send,i, this.key))
+					for(var j = 0; j < this.key.length; j++)
+						this.keyInverse[i][j] = send[j];
+			}
 		}
 		return this.keyInverse;
 	};
+
+	// Multiply the row by every column in the key,
+	// If the result is the correct row in I , return true
+	function isItAsolution(mat2, one, key)
+	{
+		for(var i=0; i < mat2.length; i++)
+		{
+			var total = 0;
+			for(var j = 0; j < mat2.length; j++)
+				total+=(mat2[j]*key[j][i]);
+			total = mod(total,26);
+			if( i == one )
+			{
+				if( total != 1 )
+					return false;
+			}
+			else
+			{
+				if( total != 0)
+					return false;
+			}
+		}
+		return true;
+	}
+
 	return MatrixFactory;
 });
