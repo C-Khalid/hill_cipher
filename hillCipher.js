@@ -212,3 +212,9 @@ app.factory('MatrixFactory', function() {
 
 	return MatrixFactory;
 });
+
+app.controller('TextController', function(){
+
+	this.plaintext;
+	this.ciphertext;
+});
