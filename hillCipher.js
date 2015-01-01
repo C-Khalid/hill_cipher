@@ -111,6 +111,34 @@ app.factory('MatrixFactory', function() {
 				else
 					this.keyInverse[i][j] = 0;
 		}
+
+		// Find the key inverse:
+		// First step, Apply row operations to this matrix
+		// until the left side is reduced to I except for the leading one.
+		// The leading one is at [i][j] when i == j
+		var keyCopy = angular.copy(this.key); // A copy of the key which will be reduced to I
+		for(var i = 0; i < this.key.length; i++) // Up tp down in the matrix
+			for(var j = 0; j < this.key.length; j++)// Left to right in the matrix
+				if( i != j)
+				{
+					R11 = keyCopy[i][i]; // The leading one
+					R21 = keyCopy[j][i]; // I want this to be zero
+					temp1 = [];
+					temp2 = [];
+					for(var k=0; k < this.key.length; k++)//Left to right
+					{
+						temp1.push ( mod(  (keyCopy[i][k]*R21) , 26 ) );
+						temp2.push ( mod(  (this.keyInverse[i][k]*R21) , 26 ) );
+						keyCopy[j][k] =  mod(  (keyCopy[j][k]*R11) , 26 );
+						this.keyInverse[j][k] = mod(  (this.keyInverse[j][k]*R11) , 26 );
+					}
+					for(var k=0; k < this.key.length; k++)//Left to right
+					{
+						keyCopy[j][k] = mod(  keyCopy[j][k] - temp1[k] , 26 );
+						this.keyInverse[j][k] = mod(  this.keyInverse[j][k] - temp2[k] , 26 );
+					}
+				}
+
 		return this.keyInverse;
 	};
 	return MatrixFactory;
