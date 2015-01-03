@@ -229,6 +229,9 @@ app.controller('TextController', function(MatrixFactory){
 				keyFlipped[i][j] = key[j][i];
 		}
 		plaintext = this.plaintext.replace(/[^a-z]/gi,'');
+		// The plain text must be divisible by the key. pad with X if not.
+		if(plaintext.length%key.length!=0)
+			plaintext+=Array(plaintext.length%lengthOKey+1).join("X")
 		var cipherTextDigit = [];// Hold the cipher text as number, e.g. A = 1, B = 2
 		var A = 1;// The decimial value of A. Some papers use 0 for A
 		for(var i = 0 ; i < plaintext.length; i+=key.length )
