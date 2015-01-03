@@ -247,12 +247,11 @@ app.controller('TextController', function(MatrixFactory){
 				temp.push(letter.indexOf(plaintext.charAt(i+j).toLocaleUpperCase())+A);
 			cipherTextDigit.push( math.multiply(temp,keyFlipped) );
 		}
-
 		// Turn the cipher text from numbers to text
 		this.ciphertext = "";
 		for(var i = 0; i < cipherTextDigit.length; i++)
 			for(var j = 0; j < cipherTextDigit[i].length; j++)
-				this.ciphertext+=letter[(cipherTextDigit[i][j]-A)%26];
+				this.ciphertext+=letter[((cipherTextDigit[i][j]-A %26 )+26)%26];
 	};
 
 	// The Decrypt is the same as the encrypt function but it needs the inverse of the key instead of the key itself.
