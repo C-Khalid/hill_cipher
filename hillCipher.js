@@ -221,6 +221,12 @@ app.controller('TextController', function(MatrixFactory){
 
 	this.encrypt = function(key){
 
+		var mf = new MatrixFactory(angular.copy(key));
+		if(! mf.hasInverse())
+		{
+			alert("No inverse exists!");
+			return;
+		}
 		keyFlipped = [];// The matrix multiplication function in mathjs is expecting each matrix row to be a column
 		for(var i = 0; i < key.length; i++)
 		{
@@ -253,8 +259,16 @@ app.controller('TextController', function(MatrixFactory){
 	this.decrypt = function(key){
 
 		var mf = new MatrixFactory(angular.copy(key));
-		key = mf.inverse();
-		this.encrypt(key);
+		if(! mf.hasInverse())
+		{
+			alert("No inverse exists!");
+			return;
+		}
+		else
+		{
+			key = mf.inverse();
+			this.encrypt(key);
+		}
   		
 	};
 });
