@@ -221,22 +221,22 @@ app.controller('TextController', function(){
 
 	this.encrypt = function(key){
 
-		keyFliped = [];// The matrix multiplication function in mathjs is expecting the each matrix row to be a column
+		keyFlipped = [];// The matrix multiplication function in mathjs is expecting each matrix row to be a column
 		for(var i = 0; i < key.length; i++)
 		{
-			keyFliped.push([]);
+			keyFlipped.push([]);
 			for(var j = 0; j < key.length; j++)
-				keyFliped[i][j] = key[j][i];
+				keyFlipped[i][j] = key[j][i];
 		}
-
+		plaintext = this.plaintext.replace(/[^a-z]/gi,'');
 		var cipherTextDigit = [];// Hold the cipher text as number, e.g. A = 1, B = 2
 		var A = 1;// The decimial value of A. Some papers use 0 for A
-		for(var i = 0 ; i < this.plaintext.length; i+=key.length )
+		for(var i = 0 ; i < plaintext.length; i+=key.length )
 		{
 			var temp = [];
 			for( var j = 0; j < key.length; j++)
-				temp.push(letter.indexOf(this.plaintext.charAt(i+j).toLocaleUpperCase())+A);
-			cipherTextDigit.push( math.multiply(temp,keyFliped) );
+				temp.push(letter.indexOf(plaintext.charAt(i+j).toLocaleUpperCase())+A);
+			cipherTextDigit.push( math.multiply(temp,keyFlipped) );
 		}
 
 		// Turn the cipher text from numbers to text
