@@ -213,7 +213,7 @@ app.factory('MatrixFactory', function() {
 	return MatrixFactory;
 });
 
-app.controller('TextController', function(){
+app.controller('TextController', function(MatrixFactory){
 
 	this.plaintext;
 	this.ciphertext;
@@ -244,5 +244,14 @@ app.controller('TextController', function(){
 		for(var i = 0; i < cipherTextDigit.length; i++)
 			for(var j = 0; j < cipherTextDigit[i].length; j++)
 				this.ciphertext+=letter[(cipherTextDigit[i][j]-A)%26];
+	};
+
+	// The Decrypt is the same as the encrypt function but it needs the inverse of the key instead of the key itself.
+	this.decrypt = function(key){
+
+		var mf = new MatrixFactory(angular.copy(key));
+		key = mf.inverse();
+		this.encrypt(key);
+  		
 	};
 });
