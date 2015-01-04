@@ -56,7 +56,16 @@
 	 		</div>
        	</div>
         <div ng-show="tab.isSet(2)">
-          2
+        	<div class = "CiphertextAttack" ng-controller = "CiphertextAttackController as CiptextAtakCtrl">
+        		<textarea  ng-model = "inputText" rows=6 cols=60></textarea>
+
+        		<div class="possibleKeyLength">
+        			<select ng-model="keyLength">
+        				<option ng-repeat="k in possibleKeyLength">{{k}}</option>
+        			</select>
+        		</div>
+
+        	</div>
         </div>
     </section>
 

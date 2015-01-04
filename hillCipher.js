@@ -271,3 +271,34 @@ app.controller('TextController', function(MatrixFactory){
   		
 	};
 });
+
+app.controller('CiphertextAttackController', function($scope){
+
+	//The cipher text that the user input
+	$scope.inputText = "";
+
+	// An array of all possible key length
+	$scope.possibleKeyLength = [];
+
+	// The key length chossen by the user
+	$scope.keyLength;
+
+	// Watch the length of the inputText, if changed, update the possible key length
+	// The first function is the value function. If the vlaue changed, the second function will be called 
+	$scope.$watch(function() { return $scope.inputText.length },
+              function() {
+              	// Clean the array before adding all possible key length
+              	$scope.possibleKeyLength = [];
+              	// Delete special characters
+              	$scope.inputText = $scope.inputText.replace(/[^a-z]/gi,'');
+              	// Get the length of the inputtext
+              	v = $scope.inputText.length;
+              	// Add to the array all possible key length
+              	for (i=2;i<=v;i++)
+	          if (v % i == 0)
+		    $scope.possibleKeyLength.push(i);
+
+              }
+             );
+
+});
